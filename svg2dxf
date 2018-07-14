@@ -1,0 +1,32 @@
+#!/bin/bash
+# The assert function for Bash
+function assert {
+    local rc
+    local message="$1"
+    shift
+    "$@" 2>&1 > /dev/null
+    rc=$?
+    [ $rc -eq 0 ] && return 0
+    set $(caller)
+    date=$(date "+%Y-%m-%d %T%z")
+    echo "$date $2 [$$]: $message (line=$1, rc=$rc)" >&2
+    exit $rc
+}
+
+# Retrieves the input and output filenames
+infile="$1"
+outfile="$2"
+
+# Checks the system
+assert "Inkscape not found" which inkscape
+assert "Pstoedit not found" which pstoedit
+assert "svg2dxf takes 2 arguments (infile, outfile)" test $# -eq 2
+assert "Input file not found" test -f "$infile"
+
+# Converts the SVG to DXF
+printf "Converting %s to %s..." "$infile" "$outfile" >&2
+inkscape --file="$infile" --export-eps=/dev/stderr 2>&1 >/dev/null \
+    | pstoedit -dt -f 'dxf:-polyaslines -mm' /dev/stdin /dev/stdout \
+    > "$outfile" 2> /dev/null
+printf " OK\n" >&2
+
