@@ -6,14 +6,14 @@ SVG2DXF
 Though the script should fairly generic, it has been created with Inkscape and
 OpenSCAD in mind.
 
-##Usage
+## Usage
 
 The `svg2dxf` script is called with 2 parameters, the input file and the output
 file:
 
     svg2dxf input.svg output.dxf
 
-##Requirements
+## Requirements
 
 `svg2dxf` uses:
 
@@ -23,9 +23,9 @@ file:
 They are widely available in standard repositories of any decent GNU/Linux
 distribution.
 
-##Tips
+## Tips
 
-###Preparing the SVG file with Inkscape
+### Preparing the SVG file with Inkscape
 
 The script is meant to convert SVG files created with Inkscape to DXF files
 that can be imported in OpenSCAD.
@@ -49,7 +49,7 @@ You should have only one object with black background and no stroke remaining.
 Following theses tipes should avoid you to have a DXF file that is unsuable by
 OpenSCAD.
 
-###Using the DXF file in OpenSCAD
+### Using the DXF file in OpenSCAD
 
 The generated DXF should have only one layer named "0".
 
@@ -59,9 +59,8 @@ The following code can be used to import the DXF file in OpenSCAD:
          linear_extrude(height = 30, convexity = 5)
              import(file = "zigazou.dxf", layer = "0");
 
-##Why another SVG to DXF converter?
+## Why another SVG to DXF converter?
 
 - it tests requirements before doing anything
 - it uses no temporary file at all (everything is done in a pipe)
 - I like to rewrite things
-
